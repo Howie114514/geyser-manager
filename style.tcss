@@ -23,6 +23,6 @@ Label#title{
 Horizontal Button{
 	width:auto;
 }
-OptionList{
-	height:50%;
+Select{
+	margin-bottom:5
 }

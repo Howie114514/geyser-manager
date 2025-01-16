@@ -20,8 +20,9 @@ config["program"]={
 	"initialized":0
 }
 config["game"]={
-	"username":"",
-	"currentServer":""
+	"currentServer":"",
+	"protocolVersion":"",
+	"mcVersion":""
 }
 
 os.makedirs(os.path.dirname(config_path),exist_ok=True)
@@ -42,7 +43,12 @@ if os.path.isfile(server_list_path):
 
 class GeyserManager:
 	def saveServerList(self):
-		json.dump(open(server_list_path,"w"))
+		json.dump(servers,open(server_list_path,"w"))
+	def updateVersionData(self):
+		p=self.getProtocolVersion(ignoreError=False)
+		config["game"]["protocolVersion"]=str(p["id"])
+		config["game"]["mcVersion"]=p["name"]
+		saveConfig()
 	def downloadGeyser(self):
 		self.app.notify("下载geyser中...")
 		try:
@@ -67,6 +73,20 @@ class GeyserManager:
 		if self.geyser_process:
 			self.geyser_process.kill()
 		self.geyser_process=subprocess.Popen(["java","-jar",os.path.join(geyser_path,"geyser.jar")],cwd=geyser_path,stdout=subprocess.PIPE,stdin=subprocess.PIPE)
+	def getServerById(self,server):
+		r=list(filter(lambda x:x["id"]==server,servers))
+		if len(r)==0:
+			return None
+		return r[0]
+	
+	def getProtocolVersion(self,ignoreError=True):
+		try:
+			response = requests.get("https://api.geysermc.org/v2/versions/geyser").json()
+			return response["bedrock"]["protocol"]
+		except Exception as e:
+			self.app.notify("检查更新时发生错误："+str(e))
+			if not ignoreError:
+				raise e
 	def __init__(self,app):
 		self.app=app
 		

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "example1",
+    "addr": "example.com:1145"
+  },
+  {
+    "name": "example2",
+    "addr": "example.com:1145"
+  },
+  {
+    "name": "example3",
+    "addr": "example.com:1145"
+  }
+]
