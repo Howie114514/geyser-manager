@@ -1,0 +1,28 @@
+WelcomeScreen {
+    align: center middle;
+    padding: 1;
+}
+Button,Label{
+	text-align:center;
+	margin:3;
+	width:100%
+}
+SettingsScreen Label.desc{
+	color:gray;
+	margin:0
+}
+SettingsScreen Label{
+	margin:0
+}
+Label,Button{
+	margin:1
+}
+Label#title{
+	text-style:bold;
+}
+Horizontal Button{
+	width:auto;
+}
+OptionList{
+	height:50%;
+}
